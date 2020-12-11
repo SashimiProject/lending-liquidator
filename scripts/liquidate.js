@@ -8,6 +8,7 @@ const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const HttpsProxyAgent = require('https-proxy-agent');
 const BigNumber = require('bignumber.js');
+const schedule = require('node-schedule');
 
 let web3;
 let config;
@@ -49,8 +50,10 @@ async function getETHPrice(){
 async function main(){
     console.log("start");
     config = lendingConfig.networks.kovan;
-    web3 = new Web3(config.provider());
-    web3.eth.defaultAccount=info.addresses.liquidator;
+    if(web3 == undefined){
+        web3 = new Web3(config.provider());
+        web3.eth.defaultAccount=info.addresses.liquidator;
+    }
     let comptroller = new web3.eth.Contract(Comptroller.abi, config.contracts.comptroller);
     let sashimiLendingLiquidation = new web3.eth.Contract(SashimiLendingLiquidation.abi, config.contracts.sashimiLendingLiquidation);
     try {
@@ -142,12 +145,22 @@ async function main(){
     console.log('End.');
 }
 
-
-(async () => {
-    try {
+var j = schedule.scheduleJob('*/1 * * * *', function(fireDate){
+    console.log('This job was supposed to run at ' + fireDate + ', but actually ran at ' + new Date());
+    (async () => {  
+      try {
         await main();
-        process.exit();
-    } catch (e) {
+      } catch (e) {
         console.log(e);
-    }
-})();
+      }
+    })();
+});
+
+// (async () => {
+//     try {
+//         await main();
+//         process.exit();
+//     } catch (e) {
+//         console.log(e);
+//     }
+// })();
