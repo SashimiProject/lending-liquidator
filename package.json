@@ -1,0 +1,15 @@
+{
+  "name": "lending-liquidator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^1.2.0",
+    "https-proxy-agent": "^5.0.0",
+    "node-fetch": "^2.6.1",
+    "bignumber.js": "^9.0.0",
+    "truffle": "^5.1.41",
+    "truffle-flattener": "^1.4.4",
+    "truffle-plugin-verify": "^0.4.0"
+  }
+}
