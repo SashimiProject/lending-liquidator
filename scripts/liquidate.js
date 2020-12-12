@@ -51,6 +51,7 @@ async function main(){
     console.log("start");
     config = lendingConfig.networks.kovan;
     if(web3 == undefined){
+        console.log("Init web3");
         web3 = new Web3(config.provider());
         web3.eth.defaultAccount=info.addresses.liquidator;
     }
