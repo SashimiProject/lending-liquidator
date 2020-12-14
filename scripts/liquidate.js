@@ -4,14 +4,24 @@ const lendingConfig = require("./lending-config");
 const SashimiLendingLiquidation = require("../build/contracts/SashimiLendingLiquidation.json");
 const Comptroller = require('../build/contracts/Comptroller.json');
 const PriceOracle = require("../build/contracts/PriceOracle.json");
+const argv = require('minimist')(process.argv.slice(2), {string: ['network']});
 const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const HttpsProxyAgent = require('https-proxy-agent');
 const BigNumber = require('bignumber.js');
 const schedule = require('node-schedule');
 
-let web3;
 let config;
+
+console.log(`network: ${argv['network']}\n`);
+if (argv['network'] === 'kovan') {
+    config = lendingConfig.networks.kovan;
+} else if (argv['network'] === 'mainnet') {
+    config = lendingConfig.networks.mainnet;
+}
+console.log("Init web3");
+let web3 = new Web3(config.provider());
+web3.eth.defaultAccount=info.addresses.liquidator;
 
 async function fetch_get(url){
   return await fetch(url,{
@@ -49,12 +59,7 @@ async function getETHPrice(){
 
 async function main(){
     console.log("start");
-    config = lendingConfig.networks.kovan;
-    if(web3 == undefined){
-        console.log("Init web3");
-        web3 = new Web3(config.provider());
-        web3.eth.defaultAccount=info.addresses.liquidator;
-    }
+    
     let comptroller = new web3.eth.Contract(Comptroller.abi, config.contracts.comptroller);
     let sashimiLendingLiquidation = new web3.eth.Contract(SashimiLendingLiquidation.abi, config.contracts.sashimiLendingLiquidation);
     try {
