@@ -27,6 +27,11 @@ contract SashimiLendingLiquidation {
         _;
     }
 
+    function transferOwnership(address newOwner) public onlyOwner {
+        require(newOwner != address(0), "Ownable: new owner is the zero address");
+        owner = newOwner;
+    }
+
     function liquidateBorrow(address slTokenBorrowed, address borrower, uint repayAmount, address slTokenCollateral) public payable onlyOwner returns (uint) {
         if(slTokenBorrowed != slETH){
             address tokenBorrowed = SLToken(slTokenBorrowed).underlying();
