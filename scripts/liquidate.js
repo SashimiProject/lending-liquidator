@@ -24,9 +24,7 @@ let web3 = new Web3(config.provider());
 web3.eth.defaultAccount=info.addresses.liquidator;
 
 async function fetch_get(url){
-  return await fetch(url,{
-    agent: new HttpsProxyAgent("http://127.0.0.1:1087") //proxy only use in local.Online can remove it.
-  });
+  return await fetch(url);
 }
 
 async function getGasPrice(){
