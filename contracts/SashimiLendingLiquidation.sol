@@ -3,18 +3,21 @@ pragma solidity ^0.5.16;
 import "./interfaces/IUniswapV2Router02.sol"; 
 import "./SLToken.sol";
 import "./TransferHelper.sol";
+import "./Comptroller.sol";
 
 contract SashimiLendingLiquidation {
     IUniswapV2Router02 public uniswapRouter;
     IUniswapV2Router02 public sashimiswapRouter;
+    Comptroller public comptroller;
     mapping(address => bool) public sashimiswapToken;
     address public slETH;
     address public WETH;
     address public owner;
 
-    constructor(IUniswapV2Router02 uniswapRouter_, IUniswapV2Router02 sashimiswapRouter_, address slETH_, address WETH_) public {
+    constructor(IUniswapV2Router02 uniswapRouter_, IUniswapV2Router02 sashimiswapRouter_, Comptroller comptroller_, address slETH_, address WETH_) public {
         uniswapRouter = uniswapRouter_;
         sashimiswapRouter = sashimiswapRouter_;
+        comptroller = comptroller_;
         slETH = slETH_;
         WETH = WETH_;
         owner = msg.sender;
@@ -57,6 +60,18 @@ contract SashimiLendingLiquidation {
     function setSashimiswapToken(address token, bool flag) external onlyOwner{
         sashimiswapToken[token] = flag;
     }
+
+    function withdraw(address token) external onlyOwner{
+        TransferHelper.safeTransfer(token, msg.sender, SLToken(token).balanceOf(address(this)));
+    }
+
+    function withdrawETH() external onlyOwner{
+        doTransferOut(msg.sender, address(this).balance);
+    }
+
+    function claimSashimi(address[] memory slTokens) public onlyOwner{
+        comptroller.claimSashimi(address(this),slTokens);
+    } 
 
     function swapETHForTokenBorrowed(address token,uint amountOut) internal{
         address[] memory path = new address[](2);
