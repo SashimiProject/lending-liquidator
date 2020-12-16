@@ -1,0 +1,29 @@
+{
+  "api_etherscan": "", //etherscan api_key
+  "mainnet": "", //mainnet network provider
+  "kovan": "", //kovan network provider
+  "keys": [
+    // add your liquidator private key
+  ],
+  "addresses": {
+    "liquidator": "" //liquidator address
+  },
+  "contracts": {
+    "kovan": { //kovan network contracts
+      "priceOracle": "", //sashimi lending price oracle address
+      "slETH": "", //sashimi lending slETH address
+      "comptroller": "", //sashimi lending comptroller address
+      "sashimiLendingLiquidation": "" //sashimiLendingLiquidation contract address
+    },
+    "mainnet": { //mainnet network contracts
+      "priceOracle": "", //sashimi lending price oracle address
+      "slETH": "", //sashimi lending slETH address
+      "comptroller": "", //sashimi lending comptroller address
+      "sashimiLendingLiquidation": "" //sashimiLendingLiquidation contract address
+    }
+  },
+  "lending_api": {
+    "kovan":"", // API for query unhealthy accounts in kovan network
+    "mainnet":"" // API for query unhealthy accounts in mainnet network
+  }
+}

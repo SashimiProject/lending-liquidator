@@ -149,7 +149,7 @@ async function main(){
     console.log('End.');
 }
 
-var j = schedule.scheduleJob('*/1 * * * *', function(fireDate){
+var j = schedule.scheduleJob('*/5 * * * *', function(fireDate){
     console.log('This job was supposed to run at ' + fireDate + ', but actually ran at ' + new Date());
     (async () => {  
       try {
@@ -159,12 +159,3 @@ var j = schedule.scheduleJob('*/1 * * * *', function(fireDate){
       }
     })();
 });
-
-// (async () => {
-//     try {
-//         await main();
-//         process.exit();
-//     } catch (e) {
-//         console.log(e);
-//     }
-// })();
