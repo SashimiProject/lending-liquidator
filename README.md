@@ -29,7 +29,7 @@ This contract method can set the DEX used by token. By default, uniswap is used 
 
 [liquidate.js](scripts/liquidate.js) is the Web3.js script of lending liquidator, which is mainly used to find the unhealthy accounts and send transaction of [SashimiLendingLiquidation](contracts/SashimiLendingLiquidation.sol) to liquidate unhealthy accounts. The script consists of the following steps:
 
-1. Call [API](https://lending.sashimi.cool/api/loan/unhealthyAccounts) to query unhealthy accounts and deal with them one by one.
+1. Call API(https://lending.sashimi.cool/api/loan/unhealthyAccounts) to query unhealthy accounts and deal with them one by one.
 
 2. Select the borrow token with the largest total value and the collateral token with the largest total value to calculate the income that can be obtained after liquidation
 
